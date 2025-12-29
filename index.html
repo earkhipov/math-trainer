@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Interaktywny trener tabliczki mnożenia dla dzieci. Ćwicz matematykę w formie gry.">
+    <title>Trener Tabliczki Mnożenia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Settings Screen -->
+        <section id="settings-screen" class="screen active">
+            <div class="card">
+                <h1>Trener Tabliczki Mnożenia</h1>
+                <p class="subtitle">Skonfiguruj swój trening</p>
+
+                <div class="form-group">
+                    <label for="question-count">Liczba zadań</label>
+                    <input type="number" id="question-count" min="1" max="100" value="10"
+                        aria-label="Liczba zadań w sesji">
+                    <span class="hint">Od 1 do 100</span>
+                    <div class="error-message" id="question-count-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="max-number">Maksymalna liczba</label>
+                    <input type="number" id="max-number" min="2" max="9" value="5"
+                        aria-label="Maksymalna liczba w zadaniach">
+                    <span class="hint">Od 2 do 9</span>
+                    <div class="error-message" id="max-number-error"></div>
+                </div>
+
+                <button id="start-btn" class="btn btn-primary">
+                    Rozpocznij trening
+                </button>
+            </div>
+        </section>
+
+        <!-- Practice Screen -->
+        <section id="practice-screen" class="screen">
+            <div class="card">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+
+                <div class="progress-text" id="progress-text">Pytanie 1 z 10</div>
+
+                <div class="question-container">
+                    <h2 class="question" id="question">5 × 7 = ?</h2>
+                </div>
+
+                <form id="answer-form" autocomplete="off">
+                    <div class="form-group">
+                        <input type="number" id="answer-input" placeholder="Wpisz odpowiedź"
+                            aria-label="Pole do wpisania odpowiedzi" inputmode="numeric" pattern="[0-9]*" autofocus>
+                        <div class="error-message" id="answer-input-error"></div>
+                    </div>
+
+                    <div id="feedback" class="feedback"></div>
+
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
+                        Sprawdź
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="screen">
+            <div class="card">
+                <div class="celebration">🎉</div>
+                <h1>Gratulacje!</h1>
+                <p class="subtitle">Ukończyłeś trening</p>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-questions">10</div>
+                        <div class="stat-label">Zadań</div>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-errors">2</div>
+                        <div class="stat-label">Błędów</div>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-item">
+                        <div class="stat-value" id="elapsed-time">00:00</div>
+                        <div class="stat-label">Czas</div>
+                    </div>
+                </div>
+
+                <div class="accuracy" id="accuracy">Dokładność: 80%</div>
+
+                <button id="restart-btn" class="btn btn-primary">
+                    Rozpocznij ponownie
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
