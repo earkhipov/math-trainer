@@ -1,6 +1,6 @@
-# Multiplication Trainer
+# Math Trainer
 
-An interactive web application for practicing multiplication skills with adaptive difficulty and performance tracking.
+An interactive web application for practicing math skills with adaptive difficulty and performance tracking.
 
 ## Features
 
@@ -34,11 +34,7 @@ An interactive web application for practicing multiplication skills with adaptiv
 No installation required! Simply clone this repository and open `index.html` in your web browser:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/multiplication-trainer.git
-cd multiplication-trainer
+git clone https://github.com/earkhipov/math-trainer.git
+cd math-trainer
 open index.html
 ```
-
-## License
-
-MIT License - feel free to use and modify as needed.
