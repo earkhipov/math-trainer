@@ -7,7 +7,7 @@ const state = {
     num1: 0,
     num2: 0,
     correctAnswer: 0,
-    previousQuestion: null, // Track previous question to avoid consecutive duplicates
+    recentQuestions: [], // Track recent questions to avoid repetition
     startTime: null, // Timer: when practice started
     endTime: null, // Timer: when practice ended
     elapsedTime: 0 // Timer: total elapsed time in seconds
@@ -86,10 +86,14 @@ function generateQuestion() {
         newQuestion = `${state.num1}×${state.num2}`;
 
         attempts++;
-    } while (newQuestion === state.previousQuestion && attempts < maxAttempts);
+    } while (state.recentQuestions.includes(newQuestion) && attempts < maxAttempts);
 
-    // Store current question to prevent consecutive duplicates
-    state.previousQuestion = newQuestion;
+    // Store current question in history
+    state.recentQuestions.push(newQuestion);
+    // Keep only last 10 questions
+    if (state.recentQuestions.length > 10) {
+        state.recentQuestions.shift();
+    }
 
     elements.question.textContent = `${state.num1} × ${state.num2} = ?`;
 }
@@ -166,7 +170,7 @@ function startGame() {
     state.maxNumber = parseInt(elements.maxNumberInput.value);
     state.currentQuestion = 0;
     state.errors = 0;
-    state.previousQuestion = null; // Reset previous question tracker
+    state.recentQuestions = []; // Reset recent questions history
 
     // Start timer
     state.startTime = Date.now();
