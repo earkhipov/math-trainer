@@ -68,10 +68,10 @@ function generateQuestion() {
     const maxAttempts = 50; // Prevent infinite loop
 
     do {
-        // One number is from 1 to maxNumber (e.g., if maxNumber is 3, can be 1, 2, or 3)
-        // The other number is from 1 to 10
-        const firstNumber = getRandomInt(1, state.maxNumber);
-        const secondNumber = getRandomInt(1, 10);
+        // One number is from 2 to maxNumber
+        // The other number is from 2 to 9
+        const firstNumber = getRandomInt(2, state.maxNumber);
+        const secondNumber = getRandomInt(2, 9);
 
         // Randomly decide which position for each number (50/50 chance)
         if (Math.random() < 0.5) {
