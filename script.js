@@ -1,5 +1,5 @@
 // ===== Difficulty Configuration =====
-// Adapted for Russian school grades 1–3
+// Adapted for Polish school grades 1–3
 const DIFFICULTY = {
     1: {
         label: '+/− do 20 · ×/÷ do ×3',
@@ -21,48 +21,48 @@ const DIFFICULTY = {
 
 // ===== State =====
 const state = {
-    totalQuestions:  10,
-    difficulty:      1,
-    selectedOps:     ['add'],
-    useBrackets:     false,
+    totalQuestions: 10,
+    difficulty: 1,
+    selectedOps: ['add'],
+    useBrackets: false,
     currentQuestion: 0,
-    errors:          0,
-    correctAnswer:   0,
+    errors: 0,
+    correctAnswer: 0,
     recentQuestions: [],
-    startTime:       null,
-    endTime:         null,
-    elapsedTime:     0
+    startTime: null,
+    endTime: null,
+    elapsedTime: 0
 };
 
 // ===== DOM =====
 const screens = {
     settings: document.getElementById('settings-screen'),
-    practice:  document.getElementById('practice-screen'),
-    results:   document.getElementById('results-screen')
+    practice: document.getElementById('practice-screen'),
+    results: document.getElementById('results-screen')
 };
 
 const el = {
-    questionCountInput:  document.getElementById('question-count'),
-    startBtn:            document.getElementById('start-btn'),
-    questionCountError:  document.getElementById('question-count-error'),
-    operationsError:     document.getElementById('operations-error'),
-    levelHint:           document.getElementById('level-hint'),
-    answerForm:          document.getElementById('answer-form'),
-    progressFill:        document.getElementById('progress-fill'),
-    progressText:        document.getElementById('progress-text'),
-    question:            document.getElementById('question'),
-    answerInput:         document.getElementById('answer-input'),
-    feedback:            document.getElementById('feedback'),
-    submitBtn:           document.getElementById('submit-btn'),
-    answerInputError:    document.getElementById('answer-input-error'),
+    questionCountInput: document.getElementById('question-count'),
+    startBtn: document.getElementById('start-btn'),
+    questionCountError: document.getElementById('question-count-error'),
+    operationsError: document.getElementById('operations-error'),
+    levelHint: document.getElementById('level-hint'),
+    answerForm: document.getElementById('answer-form'),
+    progressFill: document.getElementById('progress-fill'),
+    progressText: document.getElementById('progress-text'),
+    question: document.getElementById('question'),
+    answerInput: document.getElementById('answer-input'),
+    feedback: document.getElementById('feedback'),
+    submitBtn: document.getElementById('submit-btn'),
+    answerInputError: document.getElementById('answer-input-error'),
     totalQuestionsDisplay: document.getElementById('total-questions'),
-    totalCorrectDisplay:   document.getElementById('total-correct'),
-    elapsedTimeDisplay:  document.getElementById('elapsed-time'),
-    accuracyDisplay:     document.getElementById('accuracy'),
-    restartBtn:          document.getElementById('restart-btn'),
-    celebrationEmoji:    document.getElementById('celebration-emoji'),
-    resultsTitle:        document.getElementById('results-title'),
-    resultsSubtitle:     document.getElementById('results-subtitle')
+    totalCorrectDisplay: document.getElementById('total-correct'),
+    elapsedTimeDisplay: document.getElementById('elapsed-time'),
+    accuracyDisplay: document.getElementById('accuracy'),
+    restartBtn: document.getElementById('restart-btn'),
+    celebrationEmoji: document.getElementById('celebration-emoji'),
+    resultsTitle: document.getElementById('results-title'),
+    resultsSubtitle: document.getElementById('results-subtitle')
 };
 
 // ===== Utilities =====
@@ -82,16 +82,16 @@ function pickRandom(arr) {
 function formatTime(sec) {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
-    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
 function showError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
-function clearError(el)     { el.textContent = '';  el.style.display = 'none'; }
+function clearError(el) { el.textContent = ''; el.style.display = 'none'; }
 
 // ===== Question Generation =====
 function generateQuestion() {
-    const cfg  = DIFFICULTY[state.difficulty];
-    const ops  = state.selectedOps;
+    const cfg = DIFFICULTY[state.difficulty];
+    const ops = state.selectedOps;
     let result, attempts = 0;
 
     do {
@@ -116,7 +116,7 @@ function makeSimple(ops, cfg) {
 // Returns a 3-number bracket expression
 function makeComposite(ops, cfg) {
     const addSubOps = ops.filter(o => o === 'add' || o === 'sub');
-    const hasMul    = ops.includes('mul');
+    const hasMul = ops.includes('mul');
 
     // If multiplication is available and +/- ops exist, occasionally use (a+b)×c
     if (hasMul && addSubOps.length > 0 && Math.random() < 0.4) {
@@ -142,24 +142,24 @@ function makeLeftBracket(ops, max) {
     if (op1 === 'add') {
         a = randInt(1, Math.floor(compositeMax / 2));
         b = randInt(1, Math.floor(compositeMax / 2));
-        innerVal  = a + b;
+        innerVal = a + b;
         innerText = `${a} + ${b}`;
     } else {
         a = randInt(2, compositeMax);
         b = randInt(1, a);
-        innerVal  = a - b;
+        innerVal = a - b;
         innerText = `${a} − ${b}`;
     }
 
     let c, answer, text;
     if (op2 === 'add') {
-        c      = randInt(1, compositeMax);
+        c = randInt(1, compositeMax);
         answer = innerVal + c;
-        text   = `(${innerText}) + ${c}`;
+        text = `(${innerText}) + ${c}`;
     } else {
-        c      = randInt(1, Math.max(innerVal, 1));
+        c = randInt(1, Math.max(innerVal, 1));
         answer = innerVal - c;
-        text   = `(${innerText}) − ${c}`;
+        text = `(${innerText}) − ${c}`;
     }
     return { text, answer };
 }
@@ -174,24 +174,24 @@ function makeRightBracket(ops, max) {
     if (op1 === 'add') {
         b = randInt(1, Math.floor(compositeMax / 2));
         c = randInt(1, Math.floor(compositeMax / 2));
-        innerVal  = b + c;
+        innerVal = b + c;
         innerText = `${b} + ${c}`;
     } else {
         b = randInt(2, compositeMax);
         c = randInt(1, b);
-        innerVal  = b - c;
+        innerVal = b - c;
         innerText = `${b} − ${c}`;
     }
 
     let a, answer, text;
     if (op2 === 'add') {
-        a      = randInt(1, compositeMax);
+        a = randInt(1, compositeMax);
         answer = a + innerVal;
-        text   = `${a} + (${innerText})`;
+        text = `${a} + (${innerText})`;
     } else {
-        a      = randInt(innerVal, compositeMax);  // a ≥ innerVal → result ≥ 0
+        a = randInt(innerVal, compositeMax);  // a ≥ innerVal → result ≥ 0
         answer = a - innerVal;
-        text   = `${a} − (${innerText})`;
+        text = `${a} − (${innerText})`;
     }
     return { text, answer };
 }
@@ -217,7 +217,7 @@ function makeQuestion(ops, cfg) {
         case 'sub': return makeSub(cfg.addSub);
         case 'mul': return makeMul(cfg.mulA, cfg.mulB);
         case 'div': return makeDiv(cfg.mulA, cfg.mulB);
-        default:    return makeAdd(cfg.addSub);
+        default: return makeAdd(cfg.addSub);
     }
 }
 
@@ -302,13 +302,13 @@ function validateSettings() {
 function startGame() {
     if (!validateSettings()) return;
 
-    state.totalQuestions  = parseInt(el.questionCountInput.value);
+    state.totalQuestions = parseInt(el.questionCountInput.value);
     state.currentQuestion = 0;
-    state.errors          = 0;
+    state.errors = 0;
     state.recentQuestions = [];
-    state.startTime       = Date.now();
-    state.endTime         = null;
-    state.elapsedTime     = 0;
+    state.startTime = Date.now();
+    state.endTime = null;
+    state.elapsedTime = 0;
 
     el.answerInput.value = '';
     el.feedback.classList.remove('show');
@@ -356,37 +356,37 @@ function submitAnswer() {
 }
 
 function showResults() {
-    state.endTime     = Date.now();
+    state.endTime = Date.now();
     state.elapsedTime = Math.floor((state.endTime - state.startTime) / 1000);
 
-    const correct  = state.totalQuestions - state.errors;
+    const correct = state.totalQuestions - state.errors;
     const accuracy = Math.round((correct / state.totalQuestions) * 100);
 
     el.totalQuestionsDisplay.textContent = state.totalQuestions;
-    el.totalCorrectDisplay.textContent   = correct;
-    el.elapsedTimeDisplay.textContent    = formatTime(state.elapsedTime);
-    el.accuracyDisplay.textContent       = `Dokładność: ${accuracy}%`;
+    el.totalCorrectDisplay.textContent = correct;
+    el.elapsedTimeDisplay.textContent = formatTime(state.elapsedTime);
+    el.accuracyDisplay.textContent = `Dokładność: ${accuracy}%`;
 
     if (accuracy === 100) {
         el.celebrationEmoji.textContent = '🏆';
-        el.resultsTitle.textContent     = 'Idealnie!';
-        el.resultsSubtitle.textContent  = 'Zero błędów — prawdziwy mistrz!';
-        el.accuracyDisplay.style.color  = 'var(--color-success)';
+        el.resultsTitle.textContent = 'Idealnie!';
+        el.resultsSubtitle.textContent = 'Zero błędów — prawdziwy mistrz!';
+        el.accuracyDisplay.style.color = 'var(--color-success)';
     } else if (accuracy >= 80) {
         el.celebrationEmoji.textContent = '🎉';
-        el.resultsTitle.textContent     = 'Brawo!';
-        el.resultsSubtitle.textContent  = 'Doskonały wynik!';
-        el.accuracyDisplay.style.color  = 'var(--color-success)';
+        el.resultsTitle.textContent = 'Brawo!';
+        el.resultsSubtitle.textContent = 'Doskonały wynik!';
+        el.accuracyDisplay.style.color = 'var(--color-success)';
     } else if (accuracy >= 60) {
         el.celebrationEmoji.textContent = '👍';
-        el.resultsTitle.textContent     = 'Dobrze!';
-        el.resultsSubtitle.textContent  = 'Spróbuj jeszcze raz!';
-        el.accuracyDisplay.style.color  = 'var(--color-primary)';
+        el.resultsTitle.textContent = 'Dobrze!';
+        el.resultsSubtitle.textContent = 'Spróbuj jeszcze raz!';
+        el.accuracyDisplay.style.color = 'var(--color-primary)';
     } else {
         el.celebrationEmoji.textContent = '💪';
-        el.resultsTitle.textContent     = 'Ćwicz dalej!';
-        el.resultsSubtitle.textContent  = 'Nie poddawaj się — dasz radę!';
-        el.accuracyDisplay.style.color  = 'var(--color-error)';
+        el.resultsTitle.textContent = 'Ćwicz dalej!';
+        el.resultsSubtitle.textContent = 'Nie poddawaj się — dasz radę!';
+        el.accuracyDisplay.style.color = 'var(--color-error)';
     }
 
     showScreen('results');
