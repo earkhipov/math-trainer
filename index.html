@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Interaktywny trener tabliczki mnożenia dla dzieci. Ćwicz matematykę w formie gry.">
-    <title>Trener Tabliczki Mnożenia</title>
+    <meta name="description" content="Trener matematyczny dla dzieci klas 1–3. Ćwicz dodawanie, odejmowanie, mnożenie i dzielenie.">
+    <title>Trener Matematyczny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -18,27 +17,75 @@
         <!-- Settings Screen -->
         <section id="settings-screen" class="screen active">
             <div class="card">
-                <h1>Trener Tabliczki Mnożenia</h1>
+                <div class="app-icon">🧮</div>
+                <h1>Trener<br>Matematyczny</h1>
                 <p class="subtitle">Skonfiguruj swój trening</p>
 
+                <!-- Operations -->
+                <div class="form-group">
+                    <label>Działania</label>
+                    <div class="toggle-group" id="operations-group" role="group" aria-label="Wybór działań">
+                        <button type="button" class="toggle-btn active" data-op="add" aria-pressed="true" id="op-add">
+                            <span class="op-symbol">+</span>
+                            <span class="op-label">Dodawanie</span>
+                        </button>
+                        <button type="button" class="toggle-btn" data-op="sub" aria-pressed="false" id="op-sub">
+                            <span class="op-symbol">−</span>
+                            <span class="op-label">Odejmowanie</span>
+                        </button>
+                        <button type="button" class="toggle-btn" data-op="mul" aria-pressed="false" id="op-mul">
+                            <span class="op-symbol">×</span>
+                            <span class="op-label">Mnożenie</span>
+                        </button>
+                        <button type="button" class="toggle-btn" data-op="div" aria-pressed="false" id="op-div">
+                            <span class="op-symbol">÷</span>
+                            <span class="op-label">Dzielenie</span>
+                        </button>
+                    </div>
+                    <div class="error-message" id="operations-error"></div>
+                </div>
+
+                <!-- Brackets toggle -->
+                <div class="form-group">
+                    <label>Wyrażenia z nawiasami</label>
+                    <button type="button" class="brackets-toggle" id="brackets-toggle" aria-pressed="false">
+                        <span class="brackets-icon">( )</span>
+                        <span class="brackets-text">Wyłączone — np. <strong>(4 + 3) × 2</strong></span>
+                        <span class="brackets-pip"></span>
+                    </button>
+                </div>
+
+                <!-- Difficulty -->
+                <div class="form-group">
+                    <label>Poziom trudności</label>
+                    <div class="difficulty-group" id="difficulty-group" role="group" aria-label="Poziom trudności">
+                        <button type="button" class="diff-btn active" data-level="1" aria-pressed="true" id="diff-1">
+                            <span class="diff-num">1</span>
+                            <span class="diff-desc">Łatwy</span>
+                        </button>
+                        <button type="button" class="diff-btn" data-level="2" aria-pressed="false" id="diff-2">
+                            <span class="diff-num">2</span>
+                            <span class="diff-desc">Średnio</span>
+                        </button>
+                        <button type="button" class="diff-btn" data-level="3" aria-pressed="false" id="diff-3">
+                            <span class="diff-num">3</span>
+                            <span class="diff-desc">Trudny</span>
+                        </button>
+                    </div>
+                    <p class="level-hint" id="level-hint">+/− do 20 · ×/÷ do ×3</p>
+                </div>
+
+                <!-- Question count -->
                 <div class="form-group">
                     <label for="question-count">Liczba zadań</label>
                     <input type="number" id="question-count" min="1" max="100" value="10"
-                        aria-label="Liczba zadań w sesji">
+                        aria-label="Liczba zadań">
                     <span class="hint">Od 1 do 100</span>
                     <div class="error-message" id="question-count-error"></div>
                 </div>
 
-                <div class="form-group">
-                    <label for="max-number">Maksymalna liczba</label>
-                    <input type="number" id="max-number" min="2" max="9" value="5"
-                        aria-label="Maksymalna liczba w zadaniach">
-                    <span class="hint">Od 2 do 9</span>
-                    <div class="error-message" id="max-number-error"></div>
-                </div>
-
                 <button id="start-btn" class="btn btn-primary">
-                    Rozpocznij trening
+                    Zacznij! <span class="btn-icon">🚀</span>
                 </button>
             </div>
         </section>
@@ -49,24 +96,23 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-
-                <div class="progress-text" id="progress-text">Pytanie 1 z 10</div>
+                <div class="progress-text" id="progress-text">Zadanie 1 z 10</div>
 
                 <div class="question-container">
-                    <h2 class="question" id="question">5 × 7 = ?</h2>
+                    <h2 class="question" id="question">5 + 7 = ?</h2>
                 </div>
 
                 <form id="answer-form" autocomplete="off">
                     <div class="form-group">
-                        <input type="number" id="answer-input" placeholder="Wpisz odpowiedź"
-                            aria-label="Pole do wpisania odpowiedzi" inputmode="numeric" pattern="[0-9]*" autofocus>
+                        <input type="number" id="answer-input" placeholder="Twoja odpowiedź"
+                            aria-label="Wpisz odpowiedź" inputmode="numeric" autofocus>
                         <div class="error-message" id="answer-input-error"></div>
                     </div>
 
                     <div id="feedback" class="feedback"></div>
 
                     <button type="submit" id="submit-btn" class="btn btn-primary">
-                        Sprawdź
+                        Sprawdź ✓
                     </button>
                 </form>
             </div>
@@ -75,25 +121,21 @@
         <!-- Results Screen -->
         <section id="results-screen" class="screen">
             <div class="card">
-                <div class="celebration">🎉</div>
-                <h1>Gratulacje!</h1>
-                <p class="subtitle">Ukończyłeś trening</p>
+                <div class="celebration" id="celebration-emoji">🎉</div>
+                <h1 id="results-title">Brawo!</h1>
+                <p class="subtitle" id="results-subtitle">Trening ukończony</p>
 
                 <div class="stats">
                     <div class="stat-item">
                         <div class="stat-value" id="total-questions">10</div>
                         <div class="stat-label">Zadań</div>
                     </div>
-
                     <div class="stat-divider"></div>
-
                     <div class="stat-item">
-                        <div class="stat-value" id="total-errors">2</div>
-                        <div class="stat-label">Błędów</div>
+                        <div class="stat-value" id="total-correct">8</div>
+                        <div class="stat-label">Poprawnych</div>
                     </div>
-
                     <div class="stat-divider"></div>
-
                     <div class="stat-item">
                         <div class="stat-value" id="elapsed-time">00:00</div>
                         <div class="stat-label">Czas</div>
@@ -103,7 +145,7 @@
                 <div class="accuracy" id="accuracy">Dokładność: 80%</div>
 
                 <button id="restart-btn" class="btn btn-primary">
-                    Rozpocznij ponownie
+                    Jeszcze raz! <span class="btn-icon">↺</span>
                 </button>
             </div>
         </section>
